@@ -4,10 +4,12 @@
     session_start();
     include_once(dirname(__FILE__).'/include.php');
     ChromePhp::log("session", $_SESSION);
-    $_SESSION["update"]=true;
 
     $_SESSION["rss_feed"] = $_POST["rss_feed"];
-    $_SESSION["rss_contents"] = file_get_contents(Constant::$RSS_URL[$_POST["rss_feed"]]);
+    $rssObj = new RSSParse($_POST["rss_feed"], $_SESSION["update"]);
+    $_SESSION["rss_contents"] = "";
+    ChromePhp::log(count($rssObj->getXML()));
+    $_SESSION["rss_contents"] = $rssObj->getXML();
     $_POST = array();
     while(!$_SESSION["update"]){}
     if($_SESSION["update"]){
