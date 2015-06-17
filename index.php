@@ -1,3 +1,11 @@
+<?php
+  header("Cache-Control: private");
+  session_cache_limiter('none');
+  session_start();
+  include_once(dirname(__FILE__).'/controller/include.php');
+  ChromePhp::log("session", $_SESSION);
+
+?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -36,40 +44,34 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">LiveDoor RSS Viewer</a>
         </div>
       </div>
     </nav>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>LiveDoor RSS Viewer</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-      </div>
-    </div>
 
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-4">
-          <h2>Heading</h2>
-          <?php echo file_get_contents("http://news.livedoor.com/topics/rss/top.xml");?>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <h2>News Type</h2>
+          <form method="POST" action="controller/form_controller.php" class="navbar-form navbar-left" role="form">
+            <div class="form-group">
+              <select class="form-control" name="rss_feed">
+                <?php foreach(Constant::$RSS_URL as $key => $value){?>
+                  <option value="<?php echo $key; ?>"><?php echo $key;?></option>
+                <?php }?>
+              </select><br/><br/>
+              <button type="submit" class="btn btn-success" name="reserve_edit">選択</button>
+            </div>
+          </form>
         </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <div class="col-md-8">
+          <h2><?php if(!isset($_SESSION["rss_feed"])){?>選択してください<?php }else{ echo $_SESSION["rss_feed"];}?></h2>
+          <p><?php if(!isset($_SESSION["rss_contents"])){?>選択してください<?php }else{echo $_SESSION["rss_contents"];}?></p>
         </div>
       </div>
-      <div id="feed" class="col-md-4"></div>
 
       <hr>
 
@@ -79,7 +81,7 @@
     </div> <!-- /container -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
         <script src="js/vendor/bootstrap.min.js"></script>
 
         <script src="js/main.js"></script>
