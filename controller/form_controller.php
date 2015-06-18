@@ -14,6 +14,6 @@
     $_POST = array();
     ChromePhp::log($max);
     $last_val = $val;
-    while($val != $max){}
-    header("location: ../index.php");
+    // while($val != $max){}
+    // header("location: ../index.php");
 ?>
