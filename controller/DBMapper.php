@@ -1,6 +1,7 @@
 <?php
 class DBMapper{
     private $connection;
+    private $result;
     function __construct(){
         $link = 'dbname='.Constant::$DATABASE['database'].' host='.Constant::$DATABASE['host'].' port='.Constant::$DATABASE['port'].' user='.Constant::$DATABASE['username'].' password='.Constant::$DATABASE['password'];
         $this->connection = pg_connect($link);
@@ -8,6 +9,10 @@ class DBMapper{
            ChromePhp::log(pg_last_error());
            die();
         }
+    }
+
+    public function searchByField($dbname, $fname, $key){
+        return pg_fetch_all(pg_query($this->connection, 'SELECT * FROM '.$dbname.' where '.$fname.' = '.$key.';'));
     }
 
     public function insertRecord($table_name, $data){
@@ -18,7 +23,12 @@ class DBMapper{
             $data_query .= $v.',';
         }
         $data_query = substr($data_query, 0, -1);
-        pg_query($this->connection, 'INSERT INTO '.$table_name.' values('.$data_query.');');
+        try{
+            $this->result = pg_query($this->connection, 'INSERT INTO '.$table_name.' values('.$data_query.');');
+            if($this->result) throw new Exception (pg_last_error($this->connection));
+        }catch(Exception $e){
+            // ChromePhp::log("error", $e);
+        }
     }
 
     public function resetTable($table_name){

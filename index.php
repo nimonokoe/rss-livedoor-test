@@ -3,8 +3,8 @@
   session_cache_limiter('none');
   session_start();
   include_once(dirname(__FILE__).'/controller/include.php');
-  ChromePhp::log("session", $_SESSION);
-
+  // ChromePhp::log("session", $_SESSION);
+  $dbm = new DBMapper();
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -54,7 +54,7 @@
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <h2>News Type</h2>
           <form method="POST" action="controller/form_controller.php" class="navbar-form navbar-left" role="form">
             <div class="form-group">
@@ -63,16 +63,15 @@
                   <option value="<?php echo $key; ?>"><?php echo $key;?></option>
                 <?php }?>
               </select><br/><br/>
-              <button type="submit" class="btn btn-success" name="reserve_edit">選択</button>
+              <button type="submit" class="btn btn-success" id="update-article">選択</button>
             </div>
           </form>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
           <h2><?php if(!isset($_SESSION["rss_feed"])){?>選択してください<?php }else{ echo $_SESSION["rss_feed"];}?></h2>
           <?php if(!isset($_SESSION["rss_contents"])){?>選択してください<?php }else{
-            echo count($_SESSION["rss_contents"]);
-            for($i=0; $i<count($_SESSION["rss_contents"]); $i++){
-              echo $_SESSION["rss_contents"][$i];
+            foreach(json_decode($_SESSION["rss_contents"], true) as $key => $val){
+              echo RecordToHTML::echoHTML($dbm->searchByField('article', 'article_id', $key));
             }
           }?>
         </div>
@@ -81,7 +80,7 @@
       <hr>
 
       <footer>
-        <p>&copy; Company 2015</p>
+        <p>&copy; Ryo Soga 2015</p>
       </footer>
     </div> <!-- /container -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

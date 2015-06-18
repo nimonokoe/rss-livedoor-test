@@ -22,10 +22,11 @@
         ];
         public static $TABLE = [
             'article' => [
-                'article_id' => 'bigint primary key',
-                'description' => 'character varying',
+                'article_id' => 'int primary key',
                 'title' => 'character varying',
-                'relate_urls' => 'character varying',
+                'description' => 'character varying',
+                'link' => 'character varying',
+                'related_articles' => 'character varying',
             ],
         ];
     }
