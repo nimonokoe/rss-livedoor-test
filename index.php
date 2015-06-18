@@ -69,7 +69,12 @@
         </div>
         <div class="col-md-8">
           <h2><?php if(!isset($_SESSION["rss_feed"])){?>選択してください<?php }else{ echo $_SESSION["rss_feed"];}?></h2>
-          <p><?php if(!isset($_SESSION["rss_contents"])){?>選択してください<?php }else{echo $_SESSION["rss_contents"];}?></p>
+          <?php if(!isset($_SESSION["rss_contents"])){?>選択してください<?php }else{
+            echo count($_SESSION["rss_contents"]);
+            for($i=0; $i<count($_SESSION["rss_contents"]); $i++){
+              echo $_SESSION["rss_contents"][$i];
+            }
+          }?>
         </div>
       </div>
 

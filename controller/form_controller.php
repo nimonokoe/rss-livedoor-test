@@ -8,11 +8,16 @@
     $_SESSION["rss_feed"] = $_POST["rss_feed"];
     $rssObj = new RSSParse($_POST["rss_feed"], $_SESSION["update"]);
     $_SESSION["rss_contents"] = "";
-    ChromePhp::log(count($rssObj->getXML()));
     $_SESSION["rss_contents"] = $rssObj->getXML();
-    $_POST = array();
-    while(!$_SESSION["update"]){}
-    if($_SESSION["update"]){
-        header("location: ../index.php");
+    phpinfo();
+
+    for($i=0; $i<count($rssObj->getXML()); $i++){
+        ChromePhp::log($rssObj->getXML()[$i]);
     }
+    ChromePhp::log(count($rssObj->getXML()));
+    $_POST = array();
+    // while(!$_SESSION["update"]){}
+    // if($_SESSION["update"]){
+    //     header("location: ../index.php");
+    // }
 ?>
