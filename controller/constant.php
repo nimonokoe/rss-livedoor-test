@@ -12,13 +12,21 @@
             "女子" => "http://news.livedoor.com/topics/rss/love.xml",
             "トレンド" => "http://news.livedoor.com/topics/rss/trend.xml",
         ];
-        public static $DATABASE = [
+        public static $DATABASE_HOME = [
             'drivername'=> 'pgsql',
             'host'=> 'localhost',
             'port'=> '5432',
             'username'=> 'ryosoga',
             'password'=> '',
             'database'=> 'rss_db',
+        ];
+        public static $DATABASE = [
+            'drivername'=> 'pgsql',
+            'host'=>'ec2-54-204-20-209.compute-1.amazonaws.com';
+            'port'=> '5432',
+            'username'=> 'gpixdcxyqfcsaf',
+            'password'=> 'z7lI3oCpJPTugtxmllUTfzRvzv',
+            'database'=> 'd63tau1u4liabm',
         ];
         public static $TABLE = [
             'article' => [
